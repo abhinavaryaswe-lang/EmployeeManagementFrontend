@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import "./profile.css"
 import Card from "react-bootstrap/Card";
 import Row from 'react-bootstrap/Row';
@@ -15,7 +15,7 @@ const Profile = () => {
 
   const {id} = useParams();
 
-  const userProfileGet = async()=>{
+  const userProfileGet = useCallback(async()=>{
     const response = await singleUsergetfunc(id);
 
     if(response.status === 200){
@@ -24,14 +24,14 @@ const Profile = () => {
       console.log("error");
     }
     
-  }
+  }, [id]);
 
   useEffect(()=>{
     userProfileGet();
     setTimeout(()=>{
       setShowSpin(false)
     }, 1200)
-  }, [])
+  }, [userProfileGet])
 
   return (
     <>

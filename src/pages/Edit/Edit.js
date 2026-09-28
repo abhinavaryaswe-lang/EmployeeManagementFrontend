@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Card from "react-bootstrap/Card"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -31,7 +31,7 @@ const Edit = () => {
         const [image, setImage] = useState("");
         const [preview, setPreview] = useState("");
 
-        const {update, setUpdate} = useContext(updateData);
+        const {setUpdate} = useContext(updateData);
 
         const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ const Edit = () => {
         }
 
 
-        const userProfileGet = async()=>{
+        const userProfileGet = useCallback(async()=>{
             const response = await singleUsergetfunc(id);
         
             if(response.status === 200){
@@ -73,7 +73,7 @@ const Edit = () => {
               console.log("error");
             }
             
-          }
+          }, [id]);
     
         // submit userdata
         const submitUserData = async (e)=>{
@@ -135,7 +135,7 @@ const Edit = () => {
 
         useEffect(()=>{
             userProfileGet();
-        },[id])
+        },[userProfileGet])
     
         useEffect(()=>{
             if(image){

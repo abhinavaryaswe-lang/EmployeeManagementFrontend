@@ -30,7 +30,7 @@ const Register = () => {
     
     const navigate = useNavigate();
 
-    const { useradd, setUseradd} = useContext(addData);
+    const { setUseradd} = useContext(addData);
 
     // status options
     const options = [

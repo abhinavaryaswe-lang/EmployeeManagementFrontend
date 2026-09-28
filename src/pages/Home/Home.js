@@ -220,7 +220,7 @@
 
 
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -257,7 +257,7 @@ const Home = () => {
   }
 
   // get user
-  const userGet = async()=>{
+  const userGet = useCallback(async()=>{
     const response = await usergetfunc(search,gender,status,sort,page);
     if(response.status === 200){
       setUserData(response.data.usersdata);
@@ -265,7 +265,7 @@ const Home = () => {
     }else{
       console.log("error for get user data")
     }
-  }
+  }, [search, gender, status, sort, page]);
 
   // user delete
   const deleteUser = async(id)=>{
@@ -338,7 +338,7 @@ const Home = () => {
     setTimeout(()=>{
         setShowSpin(false)
     },1200)
-  },[search,gender,status,sort,page])
+  },[userGet])
 
   return (
     <>
