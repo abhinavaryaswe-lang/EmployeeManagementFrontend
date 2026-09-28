@@ -415,7 +415,7 @@ const Home = () => {
 
             {/* short by value */}
             <div className="filter_newold">
-              <h3>Short By Value</h3>
+              <h3>Sort By Value</h3>
               <Dropdown className='text-center'>
                 <Dropdown.Toggle className='dropdown_btn' id="dropdown-basic">
                   <i class="fa-solid fa-sort"></i>
