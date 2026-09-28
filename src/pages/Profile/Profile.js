@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Spiner from '../../components/Spiner/Spiner';
 import { useParams } from 'react-router-dom';
 import { singleUsergetfunc } from '../../services/Apis';
-import { BASE_URL } from '../../services/helper';
+import { profileImageUrl } from '../../services/helper';
 import moment from "moment"
 
 const Profile = () => {
@@ -43,7 +43,7 @@ const Profile = () => {
           <Row>
             <div className="col">
               <div className="card-profile-stats d-flex justify-content-center">
-                <img src={`${BASE_URL}/uploads/${userprofile.profile}`} alt="" />
+                {userprofile.profile && <img src={profileImageUrl(userprofile.profile)} alt="" />}
               </div>
             </div>
           </Row>

@@ -132,7 +132,7 @@ import Table from 'react-bootstrap/Table';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Badge from 'react-bootstrap/Badge';
 import Paginations from '../pagination/Paginations';
-import { BASE_URL } from '../../services/helper';
+import { profileImageUrl } from '../../services/helper';
 import { NavLink } from 'react-router-dom';
 import { statuschangefunc } from "../../services/Apis"
 import { ToastContainer, toast } from "react-toastify"
@@ -193,7 +193,7 @@ const Tables = ({ userdata, deleteUser, userGet, handlePrevious, handleNext, pag
                               </Dropdown>
                             </td>
                             <td className='img_parent'>
-                              <img src={`${BASE_URL}/uploads/${element.profile}`} alt="img" />
+                              {element.profile && <img src={profileImageUrl(element.profile)} alt="img" />}
                             </td>
                             <td>
                               <Dropdown>

@@ -24,8 +24,6 @@ const Register = () => {
     });
 
     const [status, setStatus] = useState("Active");
-    const [image, setImage] = useState("");
-    const [preview, setPreview] = useState("");
     const [showspin, setShowSpin]= useState(true);
     
     const navigate = useNavigate();
@@ -47,11 +45,6 @@ const Register = () => {
     // satus set
     const setStatusValue = (e)=>{
         setStatus(e.value)
-    }
-
-    // profile set
-    const setProfile = (e)=>{
-        setImage(e.target.files[0])
     }
 
     // submit userdata
@@ -81,9 +74,6 @@ const Register = () => {
         else if(gender === ""){
             toast.error("Gender is Required !")
         }
-        else if(image === ""){
-            toast.error("Profile is Required !")
-        }
         else if(status === ""){
             toast.error("Status is Required !")
         }
@@ -92,21 +82,9 @@ const Register = () => {
         }
         else{
             
-            const data = new FormData();
-            data.append("fname",fname)
-            data.append("lname",lname)
-            data.append("email",email)
-            data.append("mobile",mobile)
-            data.append("gender",gender)
-            data.append("status",status)
-            data.append("user_profile",image)
-            data.append("location",location)
+            const data = { fname, lname, email, mobile, gender, status, location };
 
-            const config = {
-                "Content-Type":"multipart/form-data"
-            }
-
-            const response = await registerfunc(data,config);
+            const response = await registerfunc(data);
             if(response.status === 200){
                 setInputData({
                     ...inputdata,
@@ -118,7 +96,6 @@ const Register = () => {
                     location:""
                 });
                 setStatus("");
-                setImage("");
                 setUseradd(response.data)
                 navigate("/")
             }
@@ -130,13 +107,10 @@ const Register = () => {
     }
 
     useEffect(()=>{
-        if(image){
-            setPreview(URL.createObjectURL(image))
-        }
         setTimeout(()=>{
             setShowSpin(false)
           }, 1200)
-    },[image])
+    },[])
 
     return (
         <>
@@ -145,10 +119,6 @@ const Register = () => {
             <div className="container">
                 <h2 className='text-center mt-1'>Register Your Details</h2>
                 <Card className='shadow mt-3 p-3'>
-                    <div className="profile_div text-center">
-                        <img src={preview ? preview : "/man.png"} alt="" />
-                    </div>
-
                     <Form>
                         <Row>
                             <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
@@ -188,10 +158,6 @@ const Register = () => {
                             <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
                                 <Form.Label>Select Your Status</Form.Label>
                                 <Select options={options} onChange={setStatusValue} />
-                            </Form.Group>
-                            <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                                <Form.Label>Select Your Profile</Form.Label>
-                                <Form.Control type="file" placeholder="Select your profile" onChange={setProfile} name='user_profile' />
                             </Form.Group>
                             <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
                                 <Form.Label>Enter your Location</Form.Label>

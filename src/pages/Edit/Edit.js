@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./edit.css"
 import { useNavigate, useParams } from 'react-router-dom';
 import { singleUsergetfunc, editfunc } from '../../services/Apis';
-import { BASE_URL } from '../../services/helper';
+import { profileImageUrl } from '../../services/helper';
 import { updateData } from '../../components/context/ContextProvider';
 
 
@@ -28,8 +28,6 @@ const Edit = () => {
     
         const [status, setStatus] = useState("Active");
         const [imgdata, setImgdata] = useState("")
-        const [image, setImage] = useState("");
-        const [preview, setPreview] = useState("");
 
         const {setUpdate} = useContext(updateData);
 
@@ -56,12 +54,6 @@ const Edit = () => {
             setStatus(e.value)
         }
     
-        // profile set
-        const setProfile = (e)=>{
-            setImage(e.target.files[0])
-        }
-
-
         const userProfileGet = useCallback(async()=>{
             const response = await singleUsergetfunc(id);
         
@@ -110,21 +102,9 @@ const Edit = () => {
             }
             else{
                             
-            const data = new FormData();
-            data.append("fname",fname)
-            data.append("lname",lname)
-            data.append("email",email)
-            data.append("mobile",mobile)
-            data.append("gender",gender)
-            data.append("status",status)
-            data.append("user_profile",image || imgdata)
-            data.append("location",location)
+            const data = { fname, lname, email, mobile, gender, status, location };
 
-            const config = {
-                "Content-Type":"multipart/form-data"
-            }
-
-            const response = await editfunc(id,data,config)
+            const response = await editfunc(id,data)
                 
                 if(response.status === 200){
                     setUpdate(response.data)
@@ -137,15 +117,11 @@ const Edit = () => {
             userProfileGet();
         },[userProfileGet])
     
-        useEffect(()=>{
-            if(image){
-                setImgdata("")
-                setPreview(URL.createObjectURL(image))
-            }
+    useEffect(()=>{
             setTimeout(()=>{
                 setShowSpin(false)
               }, 1200)
-        },[image])
+        },[])
 
   return (
     <>
@@ -155,7 +131,7 @@ const Edit = () => {
                 <h2 className='text-center mt-1'>Update Your Details</h2>
                 <Card className='shadow mt-3 p-3'>
                     <div className="profile_div text-center">
-                        <img src={image ? preview : `${BASE_URL}/uploads/${imgdata}`} alt="" />
+                        {imgdata && <img src={profileImageUrl(imgdata)} alt="" />}
                     </div>
 
                     <Form>
@@ -199,10 +175,6 @@ const Edit = () => {
                             <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
                                 <Form.Label>Select Your Status</Form.Label>
                                 <Select options={options} defaultInputValue={status} onChange={setStatusValue} />
-                            </Form.Group>
-                            <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                                <Form.Label>Select Your Profile</Form.Label>
-                                <Form.Control type="file" placeholder="Select your profile" onChange={setProfile} name='user_profile' />
                             </Form.Group>
                             <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
                                 <Form.Label>Enter your Location</Form.Label>

@@ -1,8 +1,8 @@
 import {commonrequest} from "./ApiCall"
 import {BASE_URL} from "./helper"
 
-export const registerfunc = async(data,header)=>{
-    return await commonrequest("POST",`${BASE_URL}/user/register`,data,header);
+export const registerfunc = async(data)=>{
+    return await commonrequest("POST",`${BASE_URL}/user/register`,data);
 }
 
 export const usergetfunc = async(search,gender,status,sort,page)=>{
@@ -13,8 +13,8 @@ export const singleUsergetfunc = async(id)=>{
     return await commonrequest("GET",`${BASE_URL}/user/${id}`,"");
 }
 
-export const editfunc = async(id,data,header)=>{
-    return await commonrequest("PUT",`${BASE_URL}/user/edit/${id}`,data,header);
+export const editfunc = async(id,data)=>{
+    return await commonrequest("PUT",`${BASE_URL}/user/edit/${id}`,data);
 }
 
 export const deletfunc = async(id)=>{
