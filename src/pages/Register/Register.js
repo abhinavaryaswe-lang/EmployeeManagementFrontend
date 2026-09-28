@@ -68,8 +68,8 @@ const Register = () => {
         else if(mobile === ""){
             toast.error("Mobile no is Required !")
         }
-        else if(mobile.length > 10){
-            toast.error("Enter valid mobile no !")
+        else if(!/^\d{10}$/.test(mobile)){
+            toast.error("Enter a valid 10-digit mobile number")
         }
         else if(gender === ""){
             toast.error("Gender is Required !")
@@ -100,7 +100,8 @@ const Register = () => {
                 navigate("/")
             }
             else{
-                toast.error("Error!")
+                const errorMessage = response.response?.data?.message || response.response?.data;
+                toast.error(typeof errorMessage === "string" ? errorMessage : "Could not register user");
             }
 
         }
