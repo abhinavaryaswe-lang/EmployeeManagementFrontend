@@ -1,5 +1,6 @@
 import {commonrequest} from "./ApiCall"
 import {BASE_URL} from "./helper"
+import axios from "axios"
 
 export const registerfunc = async(data)=>{
     return await commonrequest("POST",`${BASE_URL}/user/register`,data);
@@ -26,5 +27,5 @@ export const statuschangefunc = async(id,data)=>{
 }
 
 export const exporttocsvfunc = async()=>{
-    return await commonrequest("GET",`${BASE_URL}/userexport`,"");
+    return await axios.get(`${BASE_URL}/userexport`, { responseType: "blob" });
 }

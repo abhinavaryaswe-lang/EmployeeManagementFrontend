@@ -6,7 +6,6 @@
 // import Paginations from '../pagination/Paginations';
 // import Table from 'react-bootstrap/Table';
 // import Badge from 'react-bootstrap/Badge';
-// import { BASE_URL } from '../../services/helper';
 // import { NavLink } from 'react-router-dom';
 // import { statuschangefunc } from '../../services/Apis';
 // import {ToastContainer, toast} from "react-toastify";
@@ -40,7 +39,6 @@
 //                     <th>Email</th>
 //                     <th>Gender</th>
 //                     <th>Status</th>
-//                     <th>Profile</th>
 //                     <th>Action</th>
 //                   </tr>
 //                 </thead>
@@ -67,9 +65,6 @@
 //                   <Dropdown.Item onClick={()=>handleChange(element._id,"InActive")}>InActive</Dropdown.Item>
 //                 </Dropdown.Menu>
 //               </Dropdown>
-//                     </td>
-//                     <td className="img_parent">
-//                       <img src={`${BASE_URL}/uploads/${element.profile}`} alt="img" />
 //                     </td>
 //                     <td>
 //                     <Dropdown className='text-center'>
@@ -132,7 +127,6 @@ import Table from 'react-bootstrap/Table';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Badge from 'react-bootstrap/Badge';
 import Paginations from '../pagination/Paginations';
-import { profileImageUrl } from '../../services/helper';
 import { NavLink } from 'react-router-dom';
 import { statuschangefunc } from "../../services/Apis"
 import { ToastContainer, toast } from "react-toastify"
@@ -165,7 +159,6 @@ const Tables = ({ userdata, deleteUser, userGet, handlePrevious, handleNext, pag
                     <th>Email</th>
                     <th>Gender</th>
                     <th>&nbsp;&nbsp;&nbsp;Status</th>
-                    <th>Profile</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -191,9 +184,6 @@ const Tables = ({ userdata, deleteUser, userGet, handlePrevious, handleNext, pag
                                   <Dropdown.Item onClick={() => handleChange(element._id, "InActive")}>InActive</Dropdown.Item>
                                 </Dropdown.Menu>
                               </Dropdown>
-                            </td>
-                            <td className='img_parent'>
-                              {element.profile && <img src={profileImageUrl(element.profile)} alt="img" />}
                             </td>
                             <td>
                               <Dropdown>

@@ -280,41 +280,44 @@ const Home = () => {
 
   // export user
   const exportuser = async () => {
-  if (!window.showSaveFilePicker) {
-    // Fall back to the current browser-managed download.
-    const response = await exporttocsvfunc();
-    if (response.status === 200) {
-      window.open(response.data.downloadUrl, "_blank");
-    }
-    return;
-  }
+    try {
+      const saveHandlePromise = window.showSaveFilePicker
+        ? window.showSaveFilePicker({
+            suggestedName: "users.csv",
+            types: [{
+              description: "CSV file",
+              accept: { "text/csv": [".csv"] },
+            }],
+          })
+        : null;
 
-  try {
-    const savePromise = window.showSaveFilePicker({
-      suggestedName: "users.csv",
-      types: [{
-        description: "CSV file",
-        accept: { "text/csv": [".csv"] },
-      }],
-    });
+      const response = await exporttocsvfunc();
+      if (response.status !== 200) {
+        toast.error("Could not export CSV");
+        return;
+      }
 
-    const response = await exporttocsvfunc();
-    if (response.status !== 200) {
-      toast.error("Could not export CSV");
-      return;
+      if (saveHandlePromise) {
+        const file = await saveHandlePromise;
+        const writable = await file.createWritable();
+        await writable.write(response.data);
+        await writable.close();
+      } else {
+        const downloadUrl = URL.createObjectURL(response.data);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = "users.csv";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+      }
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        toast.error("Could not save CSV");
+      }
     }
-
-    const fileResponse = await fetch(response.data.downloadUrl);
-    const file = await savePromise;
-    const writable = await file.createWritable();
-    await writable.write(await fileResponse.blob());
-    await writable.close();
-  } catch (error) {
-    if (error.name !== "AbortError") {
-      toast.error("Could not save CSV");
-    }
-  }
-};
+  };
 
   // pagination
   // handle prev btn
